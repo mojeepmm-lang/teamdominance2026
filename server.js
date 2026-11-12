@@ -10,41 +10,17 @@ const B = [[0,0,6,2.5,2.6],[0,-8,2.5,6,2.6],[0,8,2.5,6,2.6],[-9,-4,6,2.5,2.6],[9
  [-12,-18.6,.7,.7,.9],[-11.2,-18.6,.7,.7,.9],[12,18.6,.7,.7,.9],[11.2,18.6,.7,.7,.9],[-27,17,.7,.7,.9],[27,-17,.7,.7,.9],[-27.8,16.2,.7,.7,.9],[27.8,-16.2,.7,.7,.9]]
  .map(([x, z, w, d, h]) => ({ x0: x - w / 2, x1: x + w / 2, z0: z - d / 2, z1: z + d / 2, h }));
 const WP = [{ dmg: 26, rate: 100 }, { dmg: 17, rate: 65 }, { dmg: 90, rate: 1000 }]; // يطابق الأسلحة في اللعبة
-const HW = 30, HD = 20, MIME = {
-  '.html': 'text/html; charset=utf-8',
-  '.js': 'application/javascript; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.json': 'application/json; charset=utf-8',
-  '.glb': 'model/gltf-binary',
-  '.gltf': 'model/gltf+json',
-  '.bin': 'application/octet-stream',
-  '.fbx': 'application/octet-stream',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.webp': 'image/webp',
-  '.svg': 'image/svg+xml'
-};
+const HW = 30, HD = 20, MIME = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript', '.fbx': 'application/octet-stream', '.png': 'image/png', '.jpg': 'image/jpeg' };
 const P = new Map(); let nid = 1, host = 0, state = 'lobby', sc = { b: 0, r: 0 }, tl = 600, ot = false, last = Date.now();
 const rnd = (a, b) => a + Math.random() * (b - a);
 
-const ROOT = path.resolve(__dirname);
 const srv = http.createServer((q, r) => {
-  let pathname;
-  try { pathname = decodeURIComponent(new URL(q.url, 'http://localhost').pathname); }
-  catch (_) { r.writeHead(400); return r.end('Bad request'); }
-  if (pathname === '/') pathname = '/index.html';
-  const f = path.resolve(ROOT, '.' + pathname);
-  if (!f.startsWith(ROOT + path.sep) || path.basename(f) === 'server.js') {
-    r.writeHead(403); return r.end('Forbidden');
-  }
-  const ext = path.extname(f).toLowerCase();
-  if (!MIME[ext]) { r.writeHead(404); return r.end('Unsupported file type'); }
-  fs.readFile(f, (e, d) => {
-    if (e) { r.writeHead(404); return r.end('ملف ناقص: ' + path.basename(f)); }
-    r.writeHead(200, { 'Content-Type': MIME[ext], 'Cache-Control': 'no-store' });
-    if (q.method === 'HEAD') return r.end();
-    r.end(d);
+  let f = path.basename(decodeURIComponent(q.url.split('?')[0])) || 'team-dominance.html';
+  const ext = path.extname(f);
+  if (!MIME[ext] || f === 'server.js') { r.writeHead(404); return r.end('404'); }
+  fs.readFile(path.join(__dirname, f), (e, d) => {
+    if (e) { r.writeHead(404); return r.end('ملف ناقص: ' + f); }
+    r.writeHead(200, { 'Content-Type': MIME[ext] }); r.end(d);
   });
 });
 srv.on('upgrade', (q, s) => {

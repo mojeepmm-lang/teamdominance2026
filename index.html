@@ -1,269 +1,35 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#071326"><title>هيمنة الفريق | TEAM DOMINANCE</title>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#071326"><title>هيمنة الفريق | TEAM DOMINANCE</title>
 <style>
-:root{--gold:#d6b36b;--panel:rgba(8,17,23,.88);--line:rgba(222,190,125,.45);--blue:#173746}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101820;color:#fff;font-family:Tahoma,Arial,sans-serif}
-#view{position:fixed;inset:0;touch-action:none}canvas{display:block;width:100%;height:100%;touch-action:none}
-#shade{position:fixed;inset:0;background:linear-gradient(180deg,rgba(2,8,12,.72),transparent 24%,transparent 62%,rgba(2,8,12,.8));pointer-events:none}
-header{position:fixed;top:0;left:0;right:0;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;pointer-events:none}
-.brand{font-size:clamp(19px,4vw,27px);font-weight:900;color:var(--gold);text-shadow:0 2px 8px #000}
-.player{pointer-events:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:12px;min-width:130px}
-.player b{color:var(--gold)}
-#status{position:fixed;top:78px;left:50%;transform:translateX(-50%);background:#101d25dd;border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:12px;max-width:90%;text-align:center}
-#leftInfo{position:fixed;left:12px;top:82px;background:var(--panel);border:1px solid var(--line);padding:10px;border-radius:10px;font-size:11px;line-height:1.8;max-width:155px}
-#bottom{position:fixed;bottom:10px;left:10px;right:10px;display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
-button,.filebtn{border:1px solid var(--line);background:linear-gradient(180deg,#314651,#14232c);color:#fff;border-radius:9px;padding:10px 12px;font-weight:bold;font-size:12px;cursor:pointer}
-button:active,.filebtn:active{filter:brightness(1.35);transform:scale(.98)}
-.primary{background:linear-gradient(180deg,#94733b,#594323);color:#fff}
-#drawer{position:fixed;right:10px;top:50%;transform:translateY(-50%);width:min(310px,84vw);max-height:70vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;display:none;backdrop-filter:blur(10px)}
-#drawer h3{margin:2px 0 10px;color:var(--gold)}
-#drawer p{font-size:12px;line-height:1.7;color:#d8e0e3}
-#drawer .grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-#drawer button{width:100%}
-#drawer label{display:block;font-size:12px;margin:10px 0 4px}
-#drawer input[type=text],#drawer select{width:100%;padding:9px;border-radius:7px;border:1px solid #657984;background:#101d25;color:white}
-#drawer input[type=range]{width:100%}
-#file{display:none}
-#crosshair{position:fixed;left:50%;top:50%;width:14px;height:14px;transform:translate(-50%,-50%);opacity:.0;pointer-events:none}
-#crosshair:before,#crosshair:after{content:"";position:absolute;background:#fff}
-#crosshair:before{left:6px;top:0;width:2px;height:14px}#crosshair:after{left:0;top:6px;width:14px;height:2px}
-#hint{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);font-size:11px;color:#e9e0ca;background:#09131bbd;padding:6px 10px;border-radius:8px;white-space:nowrap}
-@media(max-width:520px){#leftInfo{top:80px;max-width:132px;padding:7px;font-size:10px}button,.filebtn{padding:9px 10px;font-size:11px}#bottom{gap:5px}.player{min-width:110px}}
-</style>
-</head>
-<body>
-<div id="view"></div><div id="shade"></div>
-<header><div class="brand">⚔ هيمنة الفريق</div><div class="player"><div id="pname">لاعب جديد</div><b>المستوى <span id="level">1</span></b> · XP <span id="xp">0</span></div></header>
-<div id="status">لوبي ثلاثي الأبعاد — اختر جنديًا أو استكشف الخرائط</div>
-<div id="leftInfo">الخريطة: <b id="mapname">صنعاء القديمة</b><br>النمط: فريق ضد فريق<br>الجودة: <span id="qualityText">فائقة</span><br>العتاد: <span id="weaponText">M416</span></div>
-<div id="hint">اسحب المشهد لتدوير الكاميرا حول الشخصية</div>
-<div id="crosshair"></div>
-<div id="bottom">
-<button class="primary" onclick="openPanel('player')">اللاعب</button>
-<button onclick="openPanel('maps')">الخرائط</button>
-<button onclick="openPanel('loadout')">العتاد والأسلحة</button>
-<button onclick="openPanel('settings')">الإعدادات</button>
-
-<button class="primary" onclick="startTraining()">تجربة ساحة التدريب</button>
-</div>
-
-<div id="drawer"></div>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07111c;color:#fff;font-family:Tahoma,Arial,sans-serif;touch-action:none}canvas{display:block}#game{position:fixed;inset:0}#shade{position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,#020812aa,transparent 25%,transparent 65%,#02081299)}
+#lobby{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:16px;background:radial-gradient(ellipse at 50% 48%,#28485a55,transparent 55%),linear-gradient(120deg,#071421,#132d3c 50%,#071421)}.brand{font-size:clamp(20px,4vw,32px);font-weight:900;color:#e5c47b;text-shadow:0 3px 12px #000}.sub{color:#c9d8e5;font-size:12px}.menu{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-start}.btn{border:1px solid #83b8d5aa;border-radius:10px;background:linear-gradient(135deg,#163c54ee,#071c2bee);color:#fff;padding:12px 18px;font-weight:bold;font-size:14px;min-width:120px}.btn.primary{background:linear-gradient(135deg,#d7b66f,#85652c);color:#101820;border:0}.panel{background:#061321eF;border:1px solid #6ca5c766;border-radius:14px;padding:14px;max-width:390px}.hidden{display:none!important}#hud{position:fixed;inset:0;pointer-events:none}#top{position:absolute;top:10px;left:12px;right:12px;display:flex;justify-content:space-between;font-size:13px;text-shadow:0 2px 4px #000}#health{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:180px;height:12px;border:1px solid #fff8;border-radius:8px;background:#300}#hp{height:100%;width:100%;background:#38d477;border-radius:8px}#cross{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:26px;color:#fff;text-shadow:0 1px 4px #000}
+#controls{position:fixed;inset:0;pointer-events:none}.stick{position:absolute;bottom:38px;left:28px;width:142px;height:142px;border-radius:50%;background:#ffffff18;border:2px solid #ffffff55;pointer-events:auto;touch-action:none}.knob{position:absolute;width:58px;height:58px;left:40px;top:40px;border-radius:50%;background:#c5e7ff66;border:2px solid #d9f2ff}.actions{position:absolute;right:18px;bottom:22px;display:grid;grid-template-columns:repeat(3,62px);gap:8px;pointer-events:auto}.act{height:58px;border-radius:50%;background:#102b43cc;border:1px solid #b7d9f5aa;color:white;font-weight:bold;font-size:11px;touch-action:none}.act.fire{background:#a52a23dd;width:70px;height:70px}.act.active{background:#b18a3b}.aimzone{position:absolute;right:0;top:10%;width:52%;height:65%;pointer-events:auto;touch-action:none}.smallrow{position:absolute;right:16px;top:52px;display:flex;gap:6px;pointer-events:auto}.smallrow button{background:#102b43dd;border:1px solid #aac8df88;color:white;border-radius:8px;padding:8px;font-size:11px}.hint{font-size:11px;color:#c4d4e2;margin-top:8px}
+@media(orientation:portrait){#lobby:after{content:'يفضّل تدوير الهاتف للوضع الأفقي';position:absolute;bottom:8px;left:0;right:0;text-align:center;color:#fff9;font-size:12px}}
+</style></head><body><div id="game"></div><div id="shade"></div>
+<section id="lobby"><div><div class="brand">TEAM DOMINANCE | هيمنة الفريق</div><div class="sub">ساحة قتال تكتيكية — نسخة لعب تجريبية</div></div><div class="panel"><b>جاهز للقتال؟</b><p class="sub">اختر الخريطة ومستوى البوتات ثم ابدأ التدريب.</p><select id="mapSel" class="btn" style="width:100%;margin-bottom:8px"><option value="Sanaa_Warehouse.glb">مستودع صنعاء</option><option value="Shibam_Hadramout.glb">شبام حضرموت</option><option value="Aden_Port.glb">ميناء عدن</option><option value="Taiz_Highlands.glb">مرتفعات تعز</option><option value="Marib_Desert.glb">صحراء مأرب</option></select><select id="botLevel" class="btn" style="width:100%;margin-bottom:8px"><option value="1">بوتات ضعيفة</option><option value="2" selected>بوتات متوسطة</option><option value="3">بوتات قوية</option><option value="4">بوتات قوية جداً</option></select><button id="start" class="btn primary" style="width:100%">ابدأ التدريب</button><div class="hint">التحكم: عصا يسار للحركة، اسحب يمين الشاشة لتدوير الكاميرا، وأزرار الحركة والقتال يميناً.</div></div><div class="menu"><button id="settings" class="btn">إعدادات التحكم</button><button id="backLobby" class="btn hidden">العودة للوبي</button></div></section>
+<div id="hud" class="hidden"><div id="top"><span id="score">الإقصاءات: 0</span><span id="weaponLabel">M416 | 30 / 120</span><span id="timer">10:00</span></div><div id="cross">+</div><div id="health"><div id="hp"></div></div></div>
+<div id="controls" class="hidden"><div id="aimzone" class="aimzone"></div><div id="stick" class="stick"><div id="knob" class="knob"></div></div><div class="smallrow"><button id="reload">تلقيم</button><button id="swap">تبديل</button><button id="scope">منظار</button></div><div class="actions"><button class="act" id="leanL">ميل يسار</button><button class="act" id="jump">قفز</button><button class="act" id="leanR">ميل يمين</button><button class="act" id="prone">انبطاح</button><button class="act" id="crouch">جثوم</button><button class="act" id="fire">إطلاق</button></div></div>
+<div id="settingsPanel" class="panel hidden" style="position:fixed;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%);width:min(90vw,380px)"><b>إعدادات التحكم</b><p class="sub">تخصيص أولي للحساسية وحجم الأزرار.</p><label>حساسية الكاميرا <input id="sens" type="range" min="0.5" max="3" step="0.1" value="1.4" style="width:100%"></label><label>حجم الأزرار <input id="size" type="range" min="0.75" max="1.4" step="0.05" value="1" style="width:100%"></label><label>شفافية الأزرار <input id="alpha" type="range" min="0.3" max="1" step="0.05" value="0.8" style="width:100%"></label><button id="closeSettings" class="btn primary" style="width:100%;margin-top:12px">حفظ</button></div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
-import * as THREE from 'three';
-import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-
-const $=id=>document.getElementById(id);
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x101820);scene.fog=null;
-const camera=new THREE.PerspectiveCamera(43,innerWidth/innerHeight,.1,250);
-const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
-renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;
-$('view').appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xe7f1ff,0x4a4030,2.1));
-const sun=new THREE.DirectionalLight(0xffe1b8,2.8);sun.position.set(-12,22,13);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);
-const fill=new THREE.DirectionalLight(0x8ab6d1,.7);fill.position.set(10,8,-10);scene.add(fill);
-const world=new THREE.Group();scene.add(world);
-let soldier=null, weapon=null, mapKey='sanaa', yaw=0, pitch=0, distance=8, target=new THREE.Vector3(0,1.4,0), dragging=false,lastX=0,lastY=0,training=false;
-const mat=(c,r=.8,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
-const materials={sand:mat(0xb69a68),stone:mat(0x817d70),mud:mat(0x9a7652),white:mat(0xd6c7a6),dark:mat(0x29343a),metal:mat(0x59666a,.4,.7),green:mat(0x52664b),red:mat(0x873c32),blue:mat(0x294f70)};
-function box(parent,x,y,z,w,h,d,material,rot=0){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);o.position.set(x,y,z);o.rotation.y=rot;o.castShadow=true;o.receiveShadow=true;parent.add(o);return o}
-function cylinder(parent,x,y,z,rt,rb,h,material,segments=12){const o=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,segments),material);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o}
-function roofHouse(parent,x,z,w,d,h,style='mud'){
- const wallmat=style==='white'?materials.white:style==='stone'?materials.stone:materials.mud;
- box(parent,x,h/2,z,w,h,d,wallmat);
- // traditional crenellated roof edge
- for(let i=-w/2+.25;i<w/2;i+=.55){box(parent,x+i,h+.13,z-d/2,.22,.26,.18,wallmat);box(parent,x+i,h+.13,z+d/2,.22,.26,.18,wallmat)}
- for(let i=-d/2+.25;i<d/2;i+=.55){box(parent,x-w/2,h+.13,z+i,.18,.26,.22,wallmat);box(parent,x+w/2,h+.13,z+i,.18,.26,.22,wallmat)}
- // windows and door
- for(let i=-w/2+.6;i<w/2-.3;i+=1.1){box(parent,x+i,h*.55,z-d/2-.015,.3,.55,.05,materials.dark);box(parent,x+i,h*.55,z+d/2+.015,.3,.55,.05,materials.dark)}
- box(parent,x,h*.3,z+d/2+.04,.65,h*.6,.08,mat(0x513c2b));
-}
-function makeProceduralMap(key){
- while(world.children.length)world.remove(world.children[0]);
- const groundColors={sanaa:0x9a8667,shibam:0xc49a62,aden:0x6d7773,taiz:0x77796a,marib:0xc7a36d};
- const ground=new THREE.Mesh(new THREE.PlaneGeometry(100,100),mat(groundColors[key]));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;world.add(ground);
- // platform / central display zone
- const pl=new THREE.Mesh(new THREE.CylinderGeometry(1.8,2,.22,48),mat(0x4c5555,.45,.45));pl.position.set(0,.11,0);pl.receiveShadow=true;world.add(pl);
- if(key==='sanaa'){
-  roofHouse(world,-8,-7,5,5,5,'mud');roofHouse(world,8,-8,5,5,6,'white');roofHouse(world,-9,7,5,5,4,'white');roofHouse(world,9,7,5,5,5,'mud');
-  for(let i=-5;i<=5;i+=2.5){box(world,i,.55,-12,1.4,1.1,1.4,materials.stone);box(world,i,.55,12,1.4,1.1,1.4,materials.stone)}
-  // decorative arches
-  for(let i=-1;i<=1;i++){box(world,i*3,1.4,-4,.35,2.8,.35,materials.white);box(world,i*3,2.8,-4,2.8,.25,.35,materials.white)}
- } else if(key==='shibam'){
-  for(let x of [-9,-4,4,9])for(let z of [-8,7]){roofHouse(world,x,z,3.1,3.1,9+(Math.abs(x)%3),'mud');}
-  for(let i=-10;i<=10;i+=3){box(world,i,.5,0,1.2,1,1.2,materials.sand)}
- } else if(key==='aden'){
-  // port containers, cranes, sea strip
-  box(world,0,-.03,-18,60,.05,12,mat(0x315e70,.3,.3));
-  const cols=[0x9b4938,0x345b70,0x9a783c,0x52694e];
-  for(let i=0;i<8;i++){let x=-10+(i%4)*6,z=-8+Math.floor(i/4)*12;box(world,x,1.25,z,5,2.5,2.5,mat(cols[i%4]));for(let j=0;j<8;j++)box(world,x-2.2+j*.62,1.25,z-1.27,.035,2.25,.035,materials.dark)}
-  for(let x of [-12,12]){box(world,x,5,-13,.35,10,.35,materials.metal);box(world,x/2,9,-13,12,.35,.35,materials.metal)}
- } else if(key==='taiz'){
-  for(let i=0;i<7;i++){let x=-18+i*6;let hill=new THREE.Mesh(new THREE.ConeGeometry(5,7,5),mat(0x555f4d));hill.position.set(x,3.3,-22-(i%2)*5);world.add(hill)}
-  roofHouse(world,-8,-5,5,5,4,'stone');roofHouse(world,8,-7,5,5,5,'white');roofHouse(world,-8,8,5,5,4,'mud');roofHouse(world,8,8,5,5,6,'stone');
-  for(let i=0;i<5;i++)box(world,-12+i*6,.7,1,2,1.4,2,materials.stone);
- } else {
-  for(let i=0;i<10;i++){const dune=new THREE.Mesh(new THREE.SphereGeometry(5,16,10),mat(i%2?0xc5a36d:0xb9935d));dune.scale.set(2,.25,1.4);dune.position.set(-20+i*5,-.2,-18-(i%3)*5);world.add(dune)}
-  roofHouse(world,-8,-5,6,5,3,'mud');roofHouse(world,8,-7,6,5,3,'stone');
-  for(let i=0;i<5;i++)box(world,-10+i*5,.8,8,2,1.6,2,materials.sand);
-  // ancient-inspired gate
-  box(world,0,2,-12,7,4,.7,materials.mud);box(world,0,1.1,-11.55,1.8,2.2,.2,materials.dark);box(world,0,4.1,-12,9,.35,1,materials.mud);
- }
- // perimeter walls and tactical cover
- for(let x=-20;x<=20;x+=8){box(world,x,1,-24,5,2,1,materials.dark);box(world,x,1,24,5,2,1,materials.dark)}
- for(let z=-16;z<=16;z+=8){box(world,-24,1,z,1,2,5,materials.dark);box(world,24,1,z,1,2,5,materials.dark)}
- for(let i=0;i<6;i++){let x=(i%3-1)*8,z=(Math.floor(i/3)-.5)*10;box(world,x,.7,z,2.4,1.4,1.8,i%2?materials.green:materials.stone)}
- // flags
- const pole=cylinder(world,-2,3,2,.045,.045,6,materials.metal);const flag=new THREE.Mesh(new THREE.PlaneGeometry(1.8,1),new THREE.MeshStandardMaterial({color:0xce302b,side:THREE.DoubleSide}));flag.position.set(-1.1,5.2,2);world.add(flag);
-}
-
-// تحميل الخرائط الأصلية بصيغة GLB من مجلد المشروع
-let activeMap = null;
-const mapFiles = {
-  sanaa: 'Sanaa_Warehouse.glb',
-  shibam: 'Shibam_Hadramout.glb',
-  aden: 'Aden_Port.glb',
-  taiz: 'Taiz_Highlands.glb',
-  marib: 'Marib_Desert.glb'
-};
-function makeMap(key){
-  mapKey = key;
-  const file = mapFiles[key];
-  if (!file) { $('status').textContent = 'ملف الخريطة غير معروف'; return; }
-  $('status').textContent = 'جارٍ تحميل الخريطة الأصلية: ' + maps[key] + '...';
-  new GLTFLoader().load('./' + encodeURIComponent(file), gltf => {
-    const nextMap = gltf.scene;
-    nextMap.name = 'map-' + key;
-    nextMap.traverse(o => {
-      if (o.isMesh) {
-        o.castShadow = true;
-        o.receiveShadow = true;
-      }
-    });
-    nextMap.updateMatrixWorld(true);
-    let bounds = new THREE.Box3().setFromObject(nextMap);
-    const size = bounds.getSize(new THREE.Vector3());
-    const horizontal = Math.max(size.x, size.z);
-    if (horizontal > 140) nextMap.scale.setScalar(140 / horizontal);
-    nextMap.updateMatrixWorld(true);
-    bounds = new THREE.Box3().setFromObject(nextMap);
-    const center = bounds.getCenter(new THREE.Vector3());
-    nextMap.position.x -= center.x;
-    nextMap.position.z -= center.z;
-    nextMap.position.y -= bounds.min.y;
-    if (activeMap) world.remove(activeMap);
-    activeMap = nextMap;
-    world.add(activeMap);
-    $('mapname').textContent = maps[key];
-    $('status').textContent = 'تم تحميل خريطة ' + maps[key] + ' من ملف GLB الأصلي';
-    if (soldier) fitSoldier(soldier);
-  }, undefined, err => {
-    console.error('Map load failed:', file, err);
-    $('status').textContent = 'تعذر تحميل ' + file + '. تأكد من تشغيل اللعبة عبر الخادم المحلي وأن الملف بجانب HTML.';
-  });
-}
-
-function buildM416(parent){
- const g=new THREE.Group(),black=mat(0x20272a,.35,.72),edge=mat(0x586267,.28,.8),poly=mat(0x292b27,.85),glass=new THREE.MeshStandardMaterial({color:0x253d45,metalness:.4,roughness:.15,transparent:true,opacity:.8});
- const p=(geo,m,x,y,z,rx=0,ry=0,rz=0)=>{let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);o.castShadow=true;g.add(o);return o};
- // rifle length along local Z, muzzle points -Z
- p(new THREE.BoxGeometry(.16,.19,.68),black,0,0,0);
- p(new THREE.BoxGeometry(.19,.15,.38),poly,0,0,-.48);
- p(new THREE.CylinderGeometry(.025,.025,.72,12),edge,0,.015,-.78,Math.PI/2);
- p(new THREE.CylinderGeometry(.042,.042,.09,16),black,0,.015,-1.14,Math.PI/2);
- p(new THREE.BoxGeometry(.12,.3,.2),poly,0,-.22,.12,-.12);
- p(new THREE.BoxGeometry(.12,.28,.17),poly,0,-.21,.32,-.22);
- p(new THREE.BoxGeometry(.1,.18,.12),poly,0,-.16,-.36,-.15);
- // top rail and holo sight
- p(new THREE.BoxGeometry(.11,.025,.55),edge,0,.12,-.05);
- p(new THREE.BoxGeometry(.2,.19,.16),black,0,.24,-.12);
- p(new THREE.BoxGeometry(.13,.13,.035),glass,0,.25,-.205);
- p(new THREE.BoxGeometry(.055,.12,.08),edge,0,.18,-.12);
- // foregrip
- p(new THREE.BoxGeometry(.11,.2,.12),poly,0,-.15,-.48,-.1);
- // sling points and side rail details
- p(new THREE.BoxGeometry(.025,.045,.42),edge,.095,.015,-.36);
- for(let i=0;i<5;i++)p(new THREE.BoxGeometry(.025,.025,.035),edge,.11,.015,-.52+i*.075);
- g.scale.setScalar(.62);parent.add(g);return g;
-}
-function makeDemoSoldier(){
- const root=new THREE.Group(),uniform=mat(0x626b55),vest=mat(0x353e3b),skin=mat(0x9a765a),boots=mat(0x252725),helmet=mat(0x4b5948);
- const limb=(x,y,z,r1,r2,h,m)=>{let o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,10),m);o.position.set(x,y,z);o.castShadow=true;root.add(o);return o};
- // feet and legs
- for(let s of [-1,1]){box(root,s*.22,.12,.04,.25,.22,.42,boots);limb(s*.22,.65,0,.13,.16,.9,uniform);limb(s*.22,1.13,0,.17,.17,.25,uniform)}
- // torso / armor
- const torso=new THREE.Mesh(new THREE.BoxGeometry(.72,.82,.38),uniform);torso.position.y=1.72;torso.castShadow=true;root.add(torso);
- const armor=new THREE.Mesh(new THREE.BoxGeometry(.76,.65,.42),vest);armor.position.set(0,1.75,-.015);armor.castShadow=true;root.add(armor);
- for(let y=1.55;y<2.05;y+=.16)box(root,0,y,-.24,.48,.08,.025,mat(0x59604d));
- // arms angled forward
- for(let s of [-1,1]){limb(s*.48,1.78,-.02,.13,.12,.55,uniform);limb(s*.38,1.48,-.18,.105,.1,.42,uniform);let hand=new THREE.Mesh(new THREE.SphereGeometry(.12,10,8),skin);hand.position.set(s*.34,1.3,-.34);root.add(hand)}
- // head / neck
- cylinder(root,0,2.18,0,.09,.09,.18,skin);
- const head=new THREE.Mesh(new THREE.SphereGeometry(.22,16,12),skin);head.position.y=2.42;root.add(head);
- const helm=new THREE.Mesh(new THREE.SphereGeometry(.245,16,10,0,Math.PI*2,0,Math.PI*.58),helmet);helm.position.y=2.49;root.add(helm);
- // backpack
- box(root,0,1.75,.27,.48,.65,.25,mat(0x414b3b));
- return root;
-}
-function setDemo(){if(soldier)world.remove(soldier);soldier=makeDemoSoldier();world.add(soldier);weapon=buildM416(soldier);weapon.position.set(.18,1.36,-.38);weapon.rotation.y=Math.PI;target.set(0,1.35,0);distance=7.8;updateCamera();$('status').textContent='تم عرض جندي تجريبي ثلاثي الأبعاد مع M416';}
-function fitSoldier(obj){obj.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(obj),size=b.getSize(new THREE.Vector3());if(!isFinite(size.y)||size.y<=0)throw Error('invalid model bounds');obj.scale.setScalar(2.55/size.y);obj.updateMatrixWorld(true);const b2=new THREE.Box3().setFromObject(obj);obj.position.y-=b2.min.y;obj.updateMatrixWorld(true);const b3=new THREE.Box3().setFromObject(obj),c=b3.getCenter(new THREE.Vector3()),s=b3.getSize(new THREE.Vector3());target.copy(c);const vf=THREE.MathUtils.degToRad(camera.fov),hf=2*Math.atan(Math.tan(vf/2)*camera.aspect);distance=Math.max((s.y/2)/Math.tan(vf/2),(Math.max(s.x,s.z)/2)/Math.tan(hf/2))*1.75;distance=Math.max(4.5,distance);updateCamera();}
-function updateCamera(){const cp=Math.cos(pitch);camera.position.set(target.x+Math.sin(yaw)*distance*cp,target.y+Math.sin(pitch)*distance,target.z+Math.cos(yaw)*distance*cp);camera.lookAt(target)}
-function setMap(k){mapKey=k;makeMap(k);$('mapname').textContent=maps[k];$('status').textContent='تم تحميل خريطة '+maps[k]+' ثلاثية الأبعاد';if(soldier)world.add(soldier);if(soldier)fitSoldier(soldier)}
-const maps={sanaa:'صنعاء القديمة',shibam:'شبام حضرموت',aden:'ميناء عدن',taiz:'مرتفعات تعز',marib:'صحراء مأرب'};
-function openPanel(which){const d=$('drawer');d.style.display='block';let html='';
-if(which==='player'){html=`<h3>ملف اللاعب</h3><label>اسم اللاعب</label><input id="nameInput" type="text" maxlength="18" value="${escapeHtml(data.name)}"><p>المستوى: <b>${data.level}</b><br>الخبرة: ${data.xp} XP<br>الانتصارات: ${data.wins}<br>القتلات: ${data.kills}</p><button onclick="saveName()">حفظ الاسم</button><button onclick="closePanel()">إغلاق</button>`}
-if(which==='maps'){html=`<h3>الخرائط اليمنية</h3><div class="grid">${Object.entries(maps).map(([k,v])=>`<button onclick="chooseMap('${k}')">${v}</button>`).join('')}</div><p>يتم تحميل ملفات الخرائط الأصلية بصيغة GLB من مجلد اللعبة.</p><button onclick="closePanel()">إغلاق</button>`}
-if(which==='loadout'){html=`<h3>الأسلحة والعتاد</h3><label>السلاح الأساسي</label><select id="weaponSelect">${['M416','AKM','SCAR-L','GROZA','AUG','UMP45','Vector','UZI','P90','AWM','M24','Kar98k','Mini14','SKS','S12K','S686','P18C','P1911','Desert Eagle'].map(x=>`<option ${data.weapon===x?'selected':''}>${x}</option>`).join('')}</select><p>الملحقات: منظار هولوغرافي، 2X، 3X، 4X، 6X، 8X، قبضة أمامية، كاتم صوت، مخزن موسع.</p><p>الاشتباك اليدوي: لكم، ركل، سكين قتالي، عصا قتالية.</p><p>لا توجد قنابل دخانية أو عناصر دخان في العتاد.</p><button onclick="saveWeapon()">اعتماد العتاد</button><button onclick="closePanel()">إغلاق</button>`}
-if(which==='settings'){html=`<h3>الإعدادات</h3><label>جودة الرسومات</label><select id="quality"><option>فائقة</option><option>عالية</option><option>متوسطة</option><option>منخفضة</option></select><label>حساسية الكاميرا <span id="sensVal">${data.sens}</span></label><input id="sens" type="range" min="1" max="100" value="${data.sens}" oninput="document.getElementById('sensVal').textContent=this.value"><label>حساسية المنظار <span id="scopeVal">${data.scope}</span></label><input id="scope" type="range" min="1" max="100" value="${data.scope}" oninput="document.getElementById('scopeVal').textContent=this.value"><p>يمكن تعديل جودة العرض لتناسب قوة الهاتف.</p><button onclick="saveSettings()">حفظ الإعدادات</button><button onclick="closePanel()">إغلاق</button>`}
-d.innerHTML=html}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-window.openPanel=openPanel;window.closePanel=()=>{$('drawer').style.display='none'};
-window.chooseMap=k=>{setMap(k);closePanel()};
-window.saveName=()=>{data.name=$('nameInput').value.trim()||'لاعب جديد';save();refresh();closePanel()};
-window.saveWeapon=()=>{data.weapon=$('weaponSelect').value;save();$('weaponText').textContent=data.weapon;closePanel();$('status').textContent='تم اعتماد '+data.weapon+' في العتاد'};
-window.saveSettings=()=>{data.sens=+$('sens').value;data.scope=+$('scope').value;data.quality=$('quality').value;save();refresh();const ratio=data.quality==='منخفضة'?1:data.quality==='متوسطة'?1.2:data.quality==='عالية'?1.5:1.7;renderer.setPixelRatio(Math.min(devicePixelRatio,ratio));renderer.setSize(innerWidth,innerHeight);closePanel()};
-window.startTraining=()=>{training=true;$('crosshair').style.opacity='1';$('status').textContent='وضع استعراض ساحة التدريب — نموذج تجريبي بلا اتصال لاعبين';addXP(10);};
-let data={name:'لاعب جديد',level:1,xp:0,wins:0,kills:0,weapon:'M416',sens:50,scope:40,quality:'فائقة'};
-try{const saved=JSON.parse(localStorage.getItem('td_yemen_save')||'null');if(saved)data={...data,...saved}}catch{}
-function save(){localStorage.setItem('td_yemen_save',JSON.stringify(data))}
-function refresh(){$('pname').textContent=data.name;$('level').textContent=data.level;$('xp').textContent=data.xp;$('weaponText').textContent=data.weapon;$('qualityText').textContent=data.quality}
-function addXP(n){data.xp+=n;while(data.xp>=data.level*100){data.xp-=data.level*100;data.level++}save();refresh()}
-
-function loadDefaultSoldier(){
-  $('status').textContent = 'جارٍ تحميل الجندي ثلاثي الأبعاد...';
-  new GLTFLoader().load('./soldier-rigged.glb', gltf => {
-    const model = gltf.scene;
-    model.name = 'TEAM_DOMINANCE_PLAYER';
-    model.traverse(o => {
-      if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; }
-    });
-    if (soldier) world.remove(soldier);
-    soldier = model;
-    weapon = null;
-    world.add(soldier);
-    try {
-      fitSoldier(soldier);
-      $('status').textContent = 'تم تحميل الجندي الأصلي بنجاح — النموذج يحتوي على حركتي مشي وركض';
-    } catch (e) {
-      console.error(e);
-      $('status').textContent = 'تم تحميل الجندي لكن تعذر ضبط أبعاده تلقائياً';
-    }
-  }, undefined, err => {
-    console.error('Soldier load failed:', err);
-    $('status').textContent = 'تعذر تحميل soldier-rigged.glb؛ سيبقى الجندي التجريبي ظاهراً';
-  });
-}
-
-renderer.domElement.addEventListener('pointerdown',e=>{if($('drawer').style.display==='block')return;dragging=true;lastX=e.clientX;lastY=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
-renderer.domElement.addEventListener('pointermove',e=>{if(!dragging)return;let dx=e.clientX-lastX,dy=e.clientY-lastY;yaw-=dx*.006*(data.sens/50);pitch=THREE.MathUtils.clamp(pitch-dy*.004,-.35,.45);lastX=e.clientX;lastY=e.clientY;updateCamera()});
-renderer.domElement.addEventListener('pointerup',()=>dragging=false);renderer.domElement.addEventListener('pointercancel',()=>dragging=false);
-window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);updateCamera()});
-makeMap('sanaa');setDemo();loadDefaultSoldier();refresh();
-function animate(){requestAnimationFrame(animate);renderer.render(scene,camera)}animate();
-</script>
-</body>
-</html>
+import * as THREE from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+const $=id=>document.getElementById(id);let scene,camera,renderer,clock,player,playerMixer,actions={},mapObj,weapon,started=false,health=100,kills=0,ammo=30,reserve=120,weaponIndex=0,aim=false,crouch=false,prone=false,lean=0,move={x:0,y:0},yaw=0,pitch=0,velY=0,onGround=true,bots=[],lastShot=0,elapsed=0,camSens=1.4;
+const weapons=[{name:'M416',damage:27,rate:105,mag:30},{name:'AKM',damage:34,rate:135,mag:30},{name:'UMP45',damage:25,rate:85,mag:35},{name:'S686',damage:9,rate:450,mag:2}];
+function init(){scene=new THREE.Scene();scene.background=new THREE.Color(0x91a8b7);scene.fog=new THREE.Fog(0x91a8b7,70,220);camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500);renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;$('game').appendChild(renderer.domElement);clock=new THREE.Clock();scene.add(new THREE.HemisphereLight(0xddeeff,0x39434a,2));let sun=new THREE.DirectionalLight(0xffedcf,2.2);sun.position.set(30,60,20);sun.castShadow=true;scene.add(sun);loadPlayer();makeGround();makeWeapon();window.addEventListener('resize',resize);animate()}
+function makeGround(){let g=new THREE.Mesh(new THREE.PlaneGeometry(240,240),new THREE.MeshStandardMaterial({color:0x777b72,roughness:1}));g.rotation.x=-Math.PI/2;g.receiveShadow=true;scene.add(g);let grid=new THREE.GridHelper(240,60,0x596b70,0x667277);grid.position.y=.015;scene.add(grid);for(let i=0;i<24;i++){let b=new THREE.Mesh(new THREE.BoxGeometry(4+Math.random()*8,2+Math.random()*5,4+Math.random()*8),new THREE.MeshStandardMaterial({color:i%2?0x817b6b:0x68747a}));b.position.set((Math.random()-.5)*130, b.geometry.parameters.height/2,(Math.random()-.5)*130);b.castShadow=true;b.receiveShadow=true;scene.add(b)}}
+function loadPlayer(){new GLTFLoader().load('./soldier-rigged.glb',g=>{player=g.scene;player.scale.setScalar(.9);player.position.set(0,0,0);player.traverse(o=>{if(o.isMesh){o.castShadow=true;o.frustumCulled=false}});scene.add(player);if(g.animations.length){playerMixer=new THREE.AnimationMixer(player);g.animations.forEach(c=>{let a=playerMixer.clipAction(c);actions[c.name.toLowerCase()]=a});let idle=Object.keys(actions).find(n=>n.includes('idle'))||Object.keys(actions)[0];if(idle)actions[idle].play()}},undefined,e=>{console.error('Soldier load failed',e);makeFallbackPlayer()})}
+function makeFallbackPlayer(){player=new THREE.Group();let body=new THREE.Mesh(new THREE.CapsuleGeometry(.35,.9,4,8),new THREE.MeshStandardMaterial({color:0x354b43}));body.position.y=1;player.add(body);scene.add(player)}
+function makeWeapon(){weapon=new THREE.Group();let m=new THREE.MeshStandardMaterial({color:0x20272b,metalness:.7,roughness:.35});let barrel=new THREE.Mesh(new THREE.BoxGeometry(.12,.12,1.15),m);barrel.position.set(.35,1.35,-.65);weapon.add(barrel);let stock=new THREE.Mesh(new THREE.BoxGeometry(.18,.2,.45),m);stock.position.set(.35,1.32,.08);weapon.add(stock);scene.add(weapon)}
+function loadMap(file){if(mapObj)scene.remove(mapObj);new GLTFLoader().load('./'+file,g=>{mapObj=g.scene;let box=new THREE.Box3().setFromObject(mapObj),size=box.getSize(new THREE.Vector3()),center=box.getCenter(new THREE.Vector3());let scale=100/Math.max(size.x,size.y,size.z);mapObj.scale.setScalar(scale);mapObj.position.set(-center.x*scale,-box.min.y*scale,-center.z*scale);mapObj.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});scene.add(mapObj)},undefined,e=>console.warn('Map load failed',file,e))}
+function spawnBots(){bots.forEach(b=>scene.remove(b.group));bots=[];for(let i=0;i<5;i++){let group=new THREE.Group();let body=new THREE.Mesh(new THREE.CapsuleGeometry(.34,.85,4,8),new THREE.MeshStandardMaterial({color:0x7b3028}));body.position.y=1;group.add(body);let head=new THREE.Mesh(new THREE.SphereGeometry(.22,12,10),new THREE.MeshStandardMaterial({color:0xb98c70}));head.position.y=1.65;group.add(head);group.position.set((Math.random()-.5)*38,0,-12-Math.random()*28);scene.add(group);bots.push({group,hp:100,attack:0,alive:true,speed:.8+Number($('botLevel').value)*.3})}}
+function startGame(){if(!scene)init();$('lobby').classList.add('hidden');$('hud').classList.remove('hidden');$('controls').classList.remove('hidden');started=true;health=100;kills=0;ammo=30;reserve=120;elapsed=0;loadMap($('mapSel').value);spawnBots();updateHud()}
+function updateHud(){$('score').textContent='الإقصاءات: '+kills;$('weaponLabel').textContent=weapons[weaponIndex].name+' | '+ammo+' / '+reserve;$('hp').style.width=health+'%'}
+function fire(){if(!started||ammo<=0)return;let now=performance.now();if(now-lastShot<weapons[weaponIndex].rate)return;lastShot=now;ammo--;let dir=new THREE.Vector3();camera.getWorldDirection(dir);let ray=new THREE.Raycaster(camera.position,dir,0,90);for(let b of bots){if(!b.alive)continue;let sphere=new THREE.Sphere(b.group.position.clone().add(new THREE.Vector3(0,1,0)),1.0);if(ray.ray.intersectsSphere(sphere)){b.hp-=weapons[weaponIndex].damage;if(b.hp<=0){b.alive=false;scene.remove(b.group);kills++;}break}}updateHud()}
+function reload(){let need=weapons[weaponIndex].mag-ammo,take=Math.min(need,reserve);ammo+=take;reserve-=take;updateHud()}function setAnim(term){if(!playerMixer)return;let key=Object.keys(actions).find(n=>n.includes(term));if(key){Object.values(actions).forEach(a=>a.fadeOut(.15));actions[key].reset().fadeIn(.15).play()}}
+function update(dt){if(!started)return;elapsed+=dt;$('timer').textContent='10:00'.replace('10:00',(()=>{let s=Math.max(0,600-Math.floor(elapsed));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')})());if(player){let speed=prone?1.1:crouch?2:4.4;let forward=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw));let right=new THREE.Vector3(forward.z,0,-forward.x);let delta=forward.multiplyScalar(-move.y).add(right.multiplyScalar(move.x));if(delta.length()>1)delta.normalize();player.position.addScaledVector(delta,speed*dt);player.rotation.y=yaw+lean*.22;if(!onGround){velY-=18*dt;player.position.y+=velY*dt;if(player.position.y<=0){player.position.y=0;velY=0;onGround=true}}if(playerMixer)playerMixer.update(dt);if(actions){let moving=delta.length()>.1;if(moving)setAnim(prone?'crawl':crouch?'crouch':'walk');else setAnim('idle')}}for(let b of bots){if(!b.alive||!player)continue;let d=player.position.clone().sub(b.group.position);let dist=d.length();if(dist>2){d.y=0;d.normalize();b.group.position.addScaledVector(d,b.speed*dt);b.group.rotation.y=Math.atan2(d.x,d.z)}else{b.attack+=dt;if(b.attack>1.3){health=Math.max(0,health-5);b.attack=0;updateHud()}}}let target=player?player.position.clone().add(new THREE.Vector3(0,prone?1.1:crouch?1.8:2.5)):new THREE.Vector3(0,1,0);let distance=aim?3.2:6.5;let offset=new THREE.Vector3(Math.sin(yaw)*distance,aim?1.5:2.3,Math.cos(yaw)*distance);camera.position.lerp(target.clone().add(offset),.16);camera.lookAt(target);if(weapon&&player){weapon.position.copy(player.position);weapon.rotation.y=yaw;weapon.visible=true}}
+function animate(){requestAnimationFrame(animate);let dt=Math.min(clock?clock.getDelta():.016,.05);update(dt);if(renderer&&scene&&camera)renderer.render(scene,camera)}function resize(){if(!camera||!renderer)return;camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}
+$('start').onclick=startGame;$('settings').onclick=()=>$('settingsPanel').classList.remove('hidden');$('closeSettings').onclick=()=>{$('settingsPanel').classList.add('hidden');camSens=Number($('sens').value);document.querySelectorAll('.act').forEach(b=>{b.style.transform='scale('+Number($('size').value)+')';b.style.opacity=$('alpha').value})};$('backLobby').onclick=()=>{started=false;$('lobby').classList.remove('hidden');$('hud').classList.add('hidden');$('controls').classList.add('hidden')};$('fire').addEventListener('pointerdown',e=>{e.preventDefault();fire()});$('reload').onclick=reload;$('swap').onclick=()=>{weaponIndex=(weaponIndex+1)%weapons.length;ammo=weapons[weaponIndex].mag;updateHud()};$('scope').onclick=()=>{aim=!aim;$('scope').classList.toggle('active',aim);camera.fov=aim?42:65;camera.updateProjectionMatrix()};$('jump').onclick=()=>{if(onGround){velY=6;onGround=false;setAnim('jump')}};$('crouch').onclick=()=>{crouch=!crouch;if(crouch)prone=false;$('crouch').classList.toggle('active',crouch)};$('prone').onclick=()=>{prone=!prone;if(prone)crouch=false;$('prone').classList.toggle('active',prone)};$('leanL').onpointerdown=()=>lean=-1;$('leanR').onpointerdown=()=>lean=1;['leanL','leanR'].forEach(id=>$(id).onpointerup=()=>lean=0);
+let stick=$('stick'),knob=$('knob'),stickId=null;stick.onpointerdown=e=>{stickId=e.pointerId;stick.setPointerCapture(stickId);moveStick(e)};stick.onpointermove=e=>{if(e.pointerId===stickId)moveStick(e)};function moveStick(e){let r=stick.getBoundingClientRect(),x=e.clientX-(r.left+r.width/2),y=e.clientY-(r.top+r.height/2),max=48,len=Math.hypot(x,y);if(len>max){x=x/len*max;y=y/len*max}knob.style.transform=`translate(${x}px,${y}px)`;move={x:x/max,y:y/max}}function endStick(){stickId=null;move={x:0,y:0};knob.style.transform='translate(0,0)'}stick.onpointerup=endStick;stick.onpointercancel=endStick;
+let zone=$('aimzone'),drag=null;zone.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY,id:e.pointerId};zone.setPointerCapture(e.pointerId)};zone.onpointermove=e=>{if(!drag||drag.id!==e.pointerId)return;let dx=e.clientX-drag.x,dy=e.clientY-drag.y; yaw-=dx*.006*camSens;pitch=Math.max(-.5,Math.min(.5,pitch+dy*.003));drag={x:e.clientX,y:e.clientY,id:e.pointerId}};zone.onpointerup=()=>drag=null;zone.onpointercancel=()=>drag=null;
+init();
+</script></body></html>
